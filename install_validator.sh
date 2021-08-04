@@ -17,6 +17,11 @@ __install_deb_url() {
     rm -f "$PKGS"
 }
 
+if [ "$(id -u)" -ne 0 ]
+  then echo "Please run as root to install qinstaller"
+  exit 1
+fi
+
 source /etc/os-release
 if [ "$NAME" == "Ubuntu" ]; then
     echo "Detected $NAME"
@@ -31,6 +36,13 @@ if [ "$NAME" == "Ubuntu" ]; then
 else
     echo "Your distro $NAME $VERSION_ID currently is not supported by script"
     echo "Installation has been aborted"
+    exit 1
+fi
+
+
+which qinstaller > /dev/null
+if [ $? -ne 0 ]; then
+    echo "Error has been occurred while installing qinstaller. Please, check your system and try again"
     exit 1
 fi
 
