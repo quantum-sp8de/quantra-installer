@@ -24,8 +24,11 @@ popd
 cat >$PKG_DIR/DEBIAN/control <<EOL
 Package: $NAME
 Version: $VERSION
+Section: devel
+Priority: optional
 Architecture: all
 Depends: eosio
+Homepage: https://github.com/AlexandrDedckov/qinstaller
 Maintainer: Quantcron Technologies Inc. <noreply@quantcron.com>
 Description: The validator package provides EOS Block Chain setup for validator
 EOL
