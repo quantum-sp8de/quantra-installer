@@ -29,22 +29,6 @@ if [ "$(id -u)" -ne 0 ]
 fi
 
 source /etc/os-release
-if [ "$NAME" == "Ubuntu" ]; then
-    echo "Detected $NAME"
-    if [ "$VERSION_CODENAME" == "xenial" ]; then
-        :
-    elif [ "$VERSION_CODENAME" == "bionic" ]; then
-        :
-    else
-        echo "Only packages for Ubuntu 16.04/18.04 are available for installation"
-        exit 1
-    fi
-else
-    echo "Your distro $NAME $VERSION_ID currently is not supported by script"
-    echo "Installation has been aborted"
-    exit 1
-fi
-
 
 while getopts ":r:" o; do
     case "${o}" in
