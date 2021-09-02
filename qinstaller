@@ -28,7 +28,7 @@ if [ $? -eq 0 ]; then
     done
 
    echo "Checking if account with pubkeys exists..."
-   cleos -u $MAIN  get account ivanovich123 | grep $PUBKEY
+   cleos -u $MAIN  get account $PRODNAME | grep $PUBKEY
    if [ $? -ne 0 ]; then
        echo "Account $PRODNAME with pubkey $PUBKEY does not exist, aborting..."
        exit 1
