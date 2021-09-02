@@ -1,0 +1,47 @@
+#!/bin/bash
+
+if [ "$(id -u)" -ne 0 ]
+  then echo "Please run as root to run qinstaller"
+  exit 1
+fi
+
+NAME=qinstaller
+MAIN=http://188.165.193.139:8888
+
+grep -e "\[PRODUCER_NAME\]" \
+     -e "\[PRODUCER_PUBLIC_KEY\]" \
+     -e "\[PRODUCER_PRIVATE_KEY\]" \
+     -e "\[SERVER_ADDRESS\]" /etc/$NAME/config.ini
+
+if [ $? -eq 0 ]; then
+    while [ -z $PRODNAME ]; do
+        read -p "Enter producer name: " PRODNAME
+    done
+    while [ -z $PUBKEY ]; do
+        read -p "Enter producer public key: " PUBKEY
+    done
+    while [ -z $PRIVKEY ]; do
+        read -p "Enter producer private key: " PRIVKEY
+    done
+    while [ -z $SERVER ]; do
+        read -p "Enter server address: " SERVER
+    done
+
+   echo "Checking if account with pubkeys exists..."
+   cleos -u $MAIN  get account ivanovich123 | grep $PUBKEY
+   if [ $? -ne 0 ]; then
+       echo "Account $PRODNAME with pubkey $PUBKEY does not exist, aborting..."
+       exit 1
+   fi
+
+   echo "Registering producer node..."
+   cleos -u $MAIN system regproducer $PRODNAME $PUBKEY
+
+   sed -i "s/\[PRODUCER_NAME\]/$PRODNAME/g" /etc/$NAME/config.ini
+   sed -i "s/\[PRODUCER_PUBLIC_KEY\]/$PUBKEY/g" /etc/$NAME/config.ini
+   sed -i "s/\[PRODUCER_PRIVATE_KEY\]/$PRIVKEY/g" /etc/$NAME/config.ini
+   sed -i "s/\[SERVER_ADDRESS\]/$SERVER/g" /etc/$NAME/config.ini
+
+fi
+
+nodeos --config-dir /etc/$NAME/ --delete-all-blocks -e --protocol-features-dir=/tmp/$NAME/protocol_features/ --genesis-json /etc/$NAME/genesis.json --disable-replay-opts
