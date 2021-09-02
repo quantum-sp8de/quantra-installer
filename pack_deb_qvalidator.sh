@@ -1,9 +1,11 @@
 #!/bin/bash
 
 NAME="qinstaller"
-VERSION="1.0"
+VERSION="1.1"
 REVISION="1"
-CFG_URL="https://raw.githubusercontent.com/AlexandrDedckov/config/master/config.ini"
+CFG_URL="https://raw.githubusercontent.com/AlexandrDedckov/config/master/config_template.ini"
+GEN_URL="https://raw.githubusercontent.com/AlexandrDedckov/config/master/genesis.json"
+SC_URL="https://raw.githubusercontent.com/adedkov/qinstaller/master/qinstaller"
 
 PKG_DIR=$NAME\_$VERSION-$REVISION
 
@@ -12,13 +14,18 @@ mkdir -p $PKG_DIR/usr/bin/
 mkdir -p $PKG_DIR/DEBIAN/
 
 
-BIN_PATH=$PKG_DIR/usr/bin/$NAME
-echo -e '#!/bin/bash\n' > $BIN_PATH
-echo -e "nodeos --config-dir /etc/$NAME/ --delete-all-block --protocol-features-dir=/tmp/$NAME/protocol_features/" >> $BIN_PATH
+BIN_PATH=$PKG_DIR/usr/bin/
+
 chmod 755 $BIN_PATH
 
 pushd $PKG_DIR/etc/$NAME/
-wget $CFG_URL
+wget -O config.ini $CFG_URL
+wget $GEN_URL
+popd
+
+pushd $BIN_PATH
+wget $SC_URL
+chmod 755 $NAME
 popd
 
 cat >$PKG_DIR/DEBIAN/control <<EOL
