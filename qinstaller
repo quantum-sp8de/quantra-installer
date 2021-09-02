@@ -1,9 +1,5 @@
 #!/bin/bash
 
-if [ "$(id -u)" -ne 0 ]
-  then echo "Please run as root to run qinstaller"
-  exit 1
-fi
 
 NAME=qinstaller
 MAIN=http://188.165.193.139:8888
@@ -14,6 +10,11 @@ grep -e "\[PRODUCER_NAME\]" \
      -e "\[SERVER_ADDRESS\]" /etc/$NAME/config.ini
 
 if [ $? -eq 0 ]; then
+    if [ "$(id -u)" -ne 0 ]
+        then echo "Please run as root to run config setup for qinstaller"
+        exit 1
+    fi
+
     while [ -z $PRODNAME ]; do
         read -p "Enter producer name: " PRODNAME
     done
