@@ -27,20 +27,28 @@ if [ $? -eq 0 ]; then
         read -p "Enter server address: " SERVER
     done
 
-   echo "Checking if account with pubkeys exists..."
-   cleos -u $MAIN  get account $PRODNAME | grep $PUBKEY
-   if [ $? -ne 0 ]; then
-       echo "Account $PRODNAME with pubkey $PUBKEY does not exist, aborting..."
-       exit 1
-   fi
+    echo "Checking if account with pubkeys exists..."
+    cleos -u $MAIN  get account $PRODNAME | grep $PUBKEY
+    if [ $? -ne 0 ]; then
+        echo "Account $PRODNAME with pubkey $PUBKEY does not exist, aborting..."
+        exit 1
+    fi
 
-   echo "Registering producer node..."
-   cleos -u $MAIN system regproducer $PRODNAME $PUBKEY
+    echo "Registering producer node..."
+#    cleos wallet create -n testnet --file /tmp/password_for_testnet_wallet
+#    cleos wallet open -n testnet
+#    cleos wallet unlock -n testnet < /tmp/password_for_testnet_wallet
+#    cleos wallet import -n testnet --private-key $PRIVKEY
+    cleos -u $MAIN system regproducer $PRODNAME $PUBKEY
+#    if [ $? -ne 0 ]; then
+#        echo "Unable to perform registration of validator, aborting..."
+#        exit 1
+#    fi
 
-   sed -i "s/\[PRODUCER_NAME\]/$PRODNAME/g" /etc/$NAME/config.ini
-   sed -i "s/\[PRODUCER_PUBLIC_KEY\]/$PUBKEY/g" /etc/$NAME/config.ini
-   sed -i "s/\[PRODUCER_PRIVATE_KEY\]/$PRIVKEY/g" /etc/$NAME/config.ini
-   sed -i "s/\[SERVER_ADDRESS\]/$SERVER/g" /etc/$NAME/config.ini
+    sed -i "s/\[PRODUCER_NAME\]/$PRODNAME/g" /etc/$NAME/config.ini
+    sed -i "s/\[PRODUCER_PUBLIC_KEY\]/$PUBKEY/g" /etc/$NAME/config.ini
+    sed -i "s/\[PRODUCER_PRIVATE_KEY\]/$PRIVKEY/g" /etc/$NAME/config.ini
+    sed -i "s/\[SERVER_ADDRESS\]/$SERVER/g" /etc/$NAME/config.ini
 
 fi
 
