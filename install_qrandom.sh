@@ -24,7 +24,7 @@ __install_deb_url() {
 }
 
 if [ "$(id -u)" -ne 0 ]
-  then echo "Please run as root to install qinstaller"
+  then echo "Please run as root to install"
   exit 1
 fi
 
