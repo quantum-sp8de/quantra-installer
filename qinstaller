@@ -1,23 +1,21 @@
 #!/bin/bash
 
-
 NAME=qinstaller
-WALLET_NAME=qinstaller_setup
 MAIN=http://188.165.193.139:8888
-HOME_DIR=/home/$USER/.$NAME/
-
-
-if [ ! -f "$HOME_DIR/config.ini" ]; then
-    mkdir -p $HOME_DIR
-    cp /etc/$NAME/config.ini $HOME_DIR
-fi
+WP_FILE=/root/.$NAME/wp_setup
+WALLET_NAME="qinstaller_setup"
 
 grep -e "\[PRODUCER_NAME\]" \
      -e "\[PRODUCER_PUBLIC_KEY\]" \
      -e "\[PRODUCER_PRIVATE_KEY\]" \
-     -e "\[SERVER_ADDRESS\]" $HOME_DIR/config.ini
+     -e "\[SERVER_ADDRESS\]" /etc/$NAME/config.ini
 
 if [ $? -eq 0 ]; then
+    if [ "$(id -u)" -ne 0 ]
+        then echo "Please run as root to run config setup for $NAME"
+        exit 1
+    fi
+
     while [ -z $PRODNAME ]; do
         read -p "Enter producer name: " PRODNAME
     done
@@ -39,19 +37,21 @@ if [ $? -eq 0 ]; then
     fi
 
     echo "Registering producer node..."
-    if [ ! -f $HOME_DIR/wp_setup ]; then
-        cleos wallet create -n $WALLET_NAME --file $HOME_DIR/wp_setup
+    mkdir -p /root/.$NAME/
+
+    if [ ! -f $WP_FILE ]; then
+        cleos wallet create -n $WALLET_NAME --file $WP_FILE
         if [ $? -ne 0 ]; then
-            echo "The wallet $WALLET_NAME already exists while key for it in $HOME_DIR/wp_setup is missed"
-            echo "Please, lock and remove wallet $WALLET_NAME manually or restore $HOME_DIR/wp_setup and try again"
+            echo "The wallet $WALLET_NAME already exists while key for it in $WP_FILE is missed"
+            echo "Please, lock and remove wallet $WALLET_NAME manually or restore $WP_FILE and try again"
             exit 1
         fi
         cleos wallet open -n $WALLET_NAME
-        cleos wallet unlock -n $WALLET_NAME < $HOME_DIR/wp_setup
+        cleos wallet unlock -n $WALLET_NAME < $WP_FILE
         cleos wallet import -n $WALLET_NAME --private-key $PRIVKEY
     else
         cleos wallet open -n $WALLET_NAME
-        cleos wallet unlock -n $WALLET_NAME < $HOME_DIR/wp_setup
+        cleos wallet unlock -n $WALLET_NAME < $WP_FILE
     fi
     cleos -u $MAIN system regproducer $PRODNAME $PUBKEY
     if [ $? -ne 0 ]; then
@@ -59,11 +59,11 @@ if [ $? -eq 0 ]; then
         exit 1
     fi
 
-    sed -i "s/\[PRODUCER_NAME\]/$PRODNAME/g" $HOME_DIR/config.ini
-    sed -i "s/\[PRODUCER_PUBLIC_KEY\]/$PUBKEY/g" $HOME_DIR/config.ini
-    sed -i "s/\[PRODUCER_PRIVATE_KEY\]/$PRIVKEY/g" $HOME_DIR/config.ini
-    sed -i "s/\[SERVER_ADDRESS\]/$SERVER/g" $HOME_DIR/config.ini
+    sed -i "s/\[PRODUCER_NAME\]/$PRODNAME/g" /etc/$NAME/config.ini
+    sed -i "s/\[PRODUCER_PUBLIC_KEY\]/$PUBKEY/g" /etc/$NAME/config.ini
+    sed -i "s/\[PRODUCER_PRIVATE_KEY\]/$PRIVKEY/g" /etc/$NAME/config.ini
+    sed -i "s/\[SERVER_ADDRESS\]/$SERVER/g" /etc/$NAME/config.ini
 
 fi
 
-nodeos --config-dir $HOME_DIR --delete-all-blocks -e --protocol-features-dir=/tmp/$NAME/protocol_features/ --genesis-json /etc/$NAME/genesis.json --disable-replay-opts
+nodeos --config-dir /etc/$NAME/ --delete-all-blocks -e --protocol-features-dir=/tmp/$NAME/protocol_features/ --genesis-json /etc/$NAME/genesis.json --disable-replay-opts
