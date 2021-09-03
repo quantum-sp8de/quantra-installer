@@ -51,6 +51,11 @@ if [ $? -eq 0 ]; then
         cleos wallet import -n $WALLET_NAME --private-key $PRIVKEY
     else
         cleos wallet open -n $WALLET_NAME
+        if [ $? -ne 0 ]; then
+            echo "Your $WALLET_NAME does not exist, while there is a garbage key left for it: $WP_FILE"
+            echo "Please, review and delete $WP_FILE manually and try again"
+            exit 1
+        fi
         cleos wallet unlock -n $WALLET_NAME < $WP_FILE
     fi
     cleos -u $MAIN system regproducer $PRODNAME $PUBKEY
