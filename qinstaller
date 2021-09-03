@@ -5,16 +5,17 @@ MAIN=http://188.165.193.139:8888
 WP_FILE=/root/.$NAME/wp_setup
 WALLET_NAME="qinstaller_setup"
 
+if [ "$(id -u)" -ne 0 ]
+    then echo "Please run as root to run $NAME"
+    exit 1
+fi
+
 grep -e "\[PRODUCER_NAME\]" \
      -e "\[PRODUCER_PUBLIC_KEY\]" \
      -e "\[PRODUCER_PRIVATE_KEY\]" \
      -e "\[SERVER_ADDRESS\]" /etc/$NAME/config.ini
 
 if [ $? -eq 0 ]; then
-    if [ "$(id -u)" -ne 0 ]
-        then echo "Please run as root to run config setup for $NAME"
-        exit 1
-    fi
 
     while [ -z $PRODNAME ]; do
         read -p "Enter producer name: " PRODNAME
