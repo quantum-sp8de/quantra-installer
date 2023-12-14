@@ -1,0 +1,25 @@
+#!/bin/bash
+
+QUANTRA="dquantra_gui"
+
+
+if ! command -v docker -v &> /dev/null
+then
+    echo "'docker' command is not found. Please install it first"
+    exit 1
+fi
+
+docker build -t $QUANTRA .
+
+docker run -u=$(id -u $USER):$(id -g $USER) \
+           --uidmap $UID:0:1 \
+           --uidmap 0:1:$UID \
+           -e DISPLAY \
+           -e XAUTHORITY \
+           -v ~/.Xauthority:/home/$USER/.Xauthority:ro \
+           -v /run/user/$UID/:/run/user/$UID:ro \
+           -v $(pwd):/app \
+           --rm \
+           --net=host \
+           --privileged \
+           $QUANTRA "$@"
