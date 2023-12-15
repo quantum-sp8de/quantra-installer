@@ -1,6 +1,6 @@
 #!/bin/bash
 
-QUANTRA="dquantra_gui"
+IMG_NAME="docker_quantra"
 
 
 if ! command -v docker -v &> /dev/null
@@ -9,17 +9,16 @@ then
     exit 1
 fi
 
-docker build -t $QUANTRA .
-
-docker run -u=$(id -u $USER):$(id -g $USER) \
+docker run -u=$UID:$GID \
            --uidmap $UID:0:1 \
            --uidmap 0:1:$UID \
            -e DISPLAY \
            -e XAUTHORITY \
-           -v ~/.Xauthority:/home/$USER/.Xauthority:ro \
+           -v /home/$USER/.Xauthority:/home/$USER/.Xauthority:ro \
            -v /run/user/$UID/:/run/user/$UID:ro \
-           -v $(pwd):/app \
+           -v /home/$USER/.quantra:/home/$USER/.quantra:rw \
            --rm \
            --net=host \
            --privileged \
-           $QUANTRA "$@"
+           --entrypoint "/usr/bin/quantra-gui" \
+           $IMG_NAME "$@"
