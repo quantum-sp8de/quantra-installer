@@ -49,30 +49,31 @@ fi
 if [[ "$RUN_MODE" == "gui" ]]; then
     echo "Running quantra GUI mode"
     docker run -u=$UID:$GID \
-           --uidmap $UID:0:1 \
-           --uidmap 0:1:$UID \
-           -e DISPLAY \
-           -e XAUTHORITY \
-           -v /home/$USER/.Xauthority:/home/$USER/.Xauthority:ro \
-           -v /run/user/$UID/:/run/user/$UID:ro \
-           -v /home/$USER/.quantra:/home/$USER/.quantra:rw \
-           --rm \
-           --net=host \
-           --privileged \
-           --entrypoint "/usr/bin/quantra-gui" \
-           $IMG_NAME "$@"
-
+               --uidmap $UID:0:1 \
+               --uidmap 0:1:$UID \
+               -e DISPLAY \
+               -e XAUTHORITY \
+               -v /home/$USER/.Xauthority:/home/$USER/.Xauthority:ro \
+               -v /run/user/$UID/:/run/user/$UID:ro \
+               -v /home/$USER/.quantra:/home/$USER/.quantra:rw \
+               --rm \
+               --net=host \
+               --privileged \
+               --entrypoint "/usr/bin/quantra-gui" \
+               $IMG_NAME "$@"
 else
     echo "Running quantra console mode"
     docker run -u=$UID:$GID \
-           --uidmap $UID:0:1 \
-           --uidmap 0:1:$UID \
-           -v /home/$USER/.quantra:/home/$USER/.quantra:rw \
-           --rm \
-           --net=host \
-           --privileged \
-           --entrypoint "/usr/bin/quantra" \
-           $IMG_NAME "$@"
+               --uidmap $UID:0:1 \
+               --uidmap 0:1:$UID \
+               -v /home/$USER/.quantra:/home/$USER/.quantra:rw \
+               --rm \
+               --net=host \
+               --privileged \
+               --interactive \
+               --tty \
+               --entrypoint "/usr/bin/quantra" \
+              $IMG_NAME "$@"
 fi
 
 exit 0
