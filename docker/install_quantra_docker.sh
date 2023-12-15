@@ -27,5 +27,10 @@ EOF
 
 # create quantra config directory for future sharing
 mkdir -p ~/.quantra
+mkdir -p ~/bin
+
+# download dquantra binary
+wget -P ~/bin https://raw.githubusercontent.com/quantum-sp8de/quantra-installer/master/docker/dquantra
+chmod +x ~/bin/dquantra
 
 exit 0
