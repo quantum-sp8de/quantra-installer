@@ -2,14 +2,14 @@
 
 This repo contains installer and binaries for **quantum-sp8de** project
 
-## USAGE
+## INSTALLATION
 
 `curl -s https://raw.githubusercontent.com/quantum-sp8de/quantra-installer/master/install_qrandom.sh | sudo bash -s -- -r ROLE`
 
-where ROLE is one of the following values:
- validator
- generator
- user
+where **ROLE** is one of the following values:
+* validator
+* generator
+* user
 
 ## Supported distro and roles to install 
 
@@ -17,6 +17,12 @@ where ROLE is one of the following values:
 * Ubuntu 18.04: validator, generator, user
 * Ubuntu 20.04: generator, user
 * Ubuntu 22.04: generator, user (but see note below)
+
+## INSTALLATION IN DOCKER CONTAINER (generator only)
+
+`curl -s https://raw.githubusercontent.com/quantum-sp8de/quantra-installer/master/docker/install_quantra_docker.sh | bash -s`
+
+When installed using Docker container, use **dquantra** to run your quantra application via Docker
 
 #### NOTES:
 In case of errors on Ubuntu 22.04 like the following:
