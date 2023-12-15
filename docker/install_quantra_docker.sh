@@ -33,4 +33,5 @@ mkdir -p ~/bin
 wget -P ~/bin https://raw.githubusercontent.com/quantum-sp8de/quantra-installer/master/docker/dquantra
 chmod +x ~/bin/dquantra
 
+echo -e "Installation OK\nRun 'dquantra' to start working"
 exit 0
