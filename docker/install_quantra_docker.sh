@@ -26,6 +26,6 @@ WORKDIR /tmp
 EOF
 
 # create quantra config directory for future sharing
-mkdir ~/.quantra
+mkdir -p ~/.quantra
 
 exit 0

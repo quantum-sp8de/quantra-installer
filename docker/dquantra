@@ -48,6 +48,7 @@ if [[ "$RUN_MODE" == "gui" ]]; then
     docker run -u=$UID:$GID \
                --uidmap $UID:0:1 \
                --uidmap 0:1:$UID \
+               -e HOME \
                -e DISPLAY \
                -e XAUTHORITY \
                -v /home/$USER/.Xauthority:/home/$USER/.Xauthority:ro \
@@ -63,6 +64,7 @@ else
     docker run -u=$UID:$GID \
                --uidmap $UID:0:1 \
                --uidmap 0:1:$UID \
+               -e HOME \
                -v /home/$USER/.quantra:/home/$USER/.quantra:rw \
                --rm \
                --net=host \
