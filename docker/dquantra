@@ -24,9 +24,6 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-#echo "docker quantra args: $*"
-#echo "quantra args: ${QUANTRA_ARGS[*]}"
-
 while getopts ":g" options; do
   case "${options}" in
     g)
@@ -40,11 +37,11 @@ while getopts ":g" options; do
   esac
 done
 
-if ! command -v docker -v &> /dev/null
-then
-    echo "'docker' command is not found. Please install it first"
-    exit 1
-fi
+docker -v &> /dev/null || \
+    { echo "'docker' command is not found. Please install it first"; exit 1; }
+
+docker inspect $IMG_NAME &> /dev/null || \
+    { echo "$IMG_NAME container not available. Please, run install_quantra_docker.sh first"; exit 1; }
 
 if [[ "$RUN_MODE" == "gui" ]]; then
     echo "Running quantra GUI mode"
