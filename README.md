@@ -4,7 +4,12 @@ This repo contains installer and binaries for **quantum-sp8de** project
 
 ## USAGE
 
-`sudo bash ./install_qrandom.sh -r <role>`
+`curl -s https://raw.githubusercontent.com/quantum-sp8de/quantra-installer/master/install_qrandom.sh | sudo bash -s -- -r ROLE`
+
+where ROLE is one of the following values:
+ validator
+ generator
+ user
 
 ## Supported distro and roles to install 
 
