@@ -1,0 +1,78 @@
+#!/bin/bash
+
+IMG_NAME="docker_quantra"
+RUN_MODE="text"
+
+
+usage() {
+  echo "Usage: $0 [ -g ]" 1>&2
+}
+
+
+QUANTRA_ARGS=()
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --)
+      shift
+      break
+      ;;
+    *)
+      QUANTRA_ARGS+=("$1") 
+      shift
+      ;;
+  esac
+done
+
+#echo "docker quantra args: $*"
+#echo "quantra args: ${QUANTRA_ARGS[*]}"
+
+while getopts ":g" options; do
+  case "${options}" in
+    g)
+      RUN_MODE="gui"
+      break
+      ;;
+    *)
+      usage
+      exit 2
+      ;;
+  esac
+done
+
+if ! command -v docker -v &> /dev/null
+then
+    echo "'docker' command is not found. Please install it first"
+    exit 1
+fi
+
+if [[ "$RUN_MODE" == "gui" ]]; then
+    echo "Running quantra GUI mode"
+    docker run -u=$UID:$GID \
+           --uidmap $UID:0:1 \
+           --uidmap 0:1:$UID \
+           -e DISPLAY \
+           -e XAUTHORITY \
+           -v /home/$USER/.Xauthority:/home/$USER/.Xauthority:ro \
+           -v /run/user/$UID/:/run/user/$UID:ro \
+           -v /home/$USER/.quantra:/home/$USER/.quantra:rw \
+           --rm \
+           --net=host \
+           --privileged \
+           --entrypoint "/usr/bin/quantra-gui" \
+           $IMG_NAME "$@"
+
+else
+    echo "Running quantra console mode"
+    docker run -u=$UID:$GID \
+           --uidmap $UID:0:1 \
+           --uidmap 0:1:$UID \
+           -v /home/$USER/.quantra:/home/$USER/.quantra:rw \
+           --rm \
+           --net=host \
+           --privileged \
+           --entrypoint "/usr/bin/quantra" \
+           $IMG_NAME "$@"
+fi
+
+exit 0
