@@ -2,6 +2,10 @@
 
 IMG_NAME="docker_quantra"
 RUN_MODE="text"
+QCICADA_LIB="/opt/qrng/cicada-pkcs11.so"
+# This is required, cause aold distros may not have UID, GID envs
+U_ID=$(id -u)
+G_ID=$(id -g)
 
 
 usage() {
@@ -37,42 +41,58 @@ while getopts ":g" options; do
   esac
 done
 
-docker -v &> /dev/null || \
-    { echo "'docker' command is not found. Please install it first"; exit 1; }
+if which podman 2>/dev/null >&2; then
+    CONTAINER_RUNTIME=podman
+elif which docker 2>/dev/null >&2; then
+    CONTAINER_RUNTIME=docker
+else
+    echo "'docker' or 'podman' command is not found. Please install docker or podman first"; exit 1;
+    exit 1
+fi
 
-docker inspect $IMG_NAME &> /dev/null || \
+$CONTAINER_RUNTIME inspect $IMG_NAME &> /dev/null || \
     { echo "$IMG_NAME container not available. Please, run install_quantra_docker.sh first"; exit 1; }
 
+
+if ! [[ -f $QCICADA_LIB ]]; then
+  echo "QCicada library is not found. Please, install QCicada hardware first"
+  exit 3
+fi
+
 if [[ "$RUN_MODE" == "gui" ]]; then
+
+    [[ $CONTAINER_RUNTIME == "podman" ]] || { echo "GUI mode is supported only with podman"; exit 1; }
+
     echo "Running quantra GUI mode"
-    docker run -u=$UID:$GID \
-               --uidmap $UID:0:1 \
-               --uidmap 0:1:$UID \
-               -e HOME \
-               -e DISPLAY \
-               -e XAUTHORITY \
-               -v /home/$USER/.Xauthority:/home/$USER/.Xauthority:ro \
-               -v /run/user/$UID/:/run/user/$UID:ro \
-               -v /home/$USER/.quantra:/home/$USER/.quantra:rw \
-               --rm \
-               --net=host \
-               --privileged \
-               --entrypoint "/usr/bin/quantra-gui" \
-               $IMG_NAME "$@"
+    $CONTAINER_RUNTIME run -u=$U_ID:$G_ID \
+                           --uidmap $U_ID:0:1 \
+                           --uidmap 0:1:$U_ID \
+                           -e HOME \
+                           -e DISPLAY \
+                           -e XAUTHORITY \
+                           -v /home/$USER/.Xauthority:/home/$USER/.Xauthority:ro \
+                           -v /run/user/$U_ID/:/run/user/$U_ID:ro \
+                           -v /home/$USER/.quantra:/home/$USER/.quantra:rw \
+                           -v /opt/qrng/:/opt/qrng/:rw \
+                           -v /dev/bus/usb:/dev/bus/usb \
+                           --rm \
+                           --net=host \
+                           --privileged \
+                           --entrypoint "/usr/bin/quantra-gui" \
+                           $IMG_NAME ${QUANTRA_ARGS[*]}
 else
     echo "Running quantra console mode"
-    docker run -u=$UID:$GID \
-               --uidmap $UID:0:1 \
-               --uidmap 0:1:$UID \
-               -e HOME \
-               -v /home/$USER/.quantra:/home/$USER/.quantra:rw \
-               --rm \
-               --net=host \
-               --privileged \
-               --interactive \
-               --tty \
-               --entrypoint "/usr/bin/quantra" \
-              $IMG_NAME "$@"
+    $CONTAINER_RUNTIME run \
+                           -v /home/$USER/.quantra:/root/.quantra:rw \
+                           -v /opt/qrng/:/opt/qrng/:rw \
+                           -v /dev/bus/usb:/dev/bus/usb \
+                           --rm \
+                           --net=host \
+                           --privileged \
+                           --interactive \
+                           --tty \
+                           --entrypoint "/usr/bin/quantra" \
+                           $IMG_NAME ${QUANTRA_ARGS[*]}
 fi
 
 exit 0
