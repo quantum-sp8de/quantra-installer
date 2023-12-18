@@ -18,11 +18,16 @@ where **ROLE** is one of the following values:
 * Ubuntu 20.04: generator, user
 * Ubuntu 22.04: generator, user (but see note below)
 
-## INSTALLATION IN DOCKER CONTAINER (generator only)
+## INSTALLATION IN DOCKER CONTAINER (experemental, generator only)
+
+Prerequisites:
+
+* QCicada hardware and library installed
+* Podman or Docker installed
 
 `curl -s https://raw.githubusercontent.com/quantum-sp8de/quantra-installer/master/docker/install_quantra_docker.sh | bash -s`
 
-When installed using Docker container, use **dquantra** to run your quantra application via Docker
+After finishing, use **dquantra** to run your quantra application via Docker
 
 #### NOTES:
 In case of errors on Ubuntu 22.04 like the following:
