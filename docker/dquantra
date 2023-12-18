@@ -59,20 +59,15 @@ if ! [[ -f $QCICADA_LIB ]]; then
   exit 3
 fi
 
+
 if [[ "$RUN_MODE" == "gui" ]]; then
 
-    [[ $CONTAINER_RUNTIME == "podman" ]] || { echo "GUI mode is supported only with podman"; exit 1; }
-
     echo "Running quantra GUI mode"
-    $CONTAINER_RUNTIME run -u=$U_ID:$G_ID \
-                           --uidmap $U_ID:0:1 \
-                           --uidmap 0:1:$U_ID \
-                           -e HOME \
+    $CONTAINER_RUNTIME run \
                            -e DISPLAY \
                            -e XAUTHORITY \
-                           -v /home/$USER/.Xauthority:/home/$USER/.Xauthority:ro \
                            -v /run/user/$U_ID/:/run/user/$U_ID:ro \
-                           -v /home/$USER/.quantra:/home/$USER/.quantra:rw \
+                           -v /home/$USER/.quantra:/root/.quantra:rw \
                            -v /opt/qrng/:/opt/qrng/:rw \
                            -v /dev/bus/usb:/dev/bus/usb \
                            --rm \
