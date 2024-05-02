@@ -14,6 +14,7 @@ EOS_DEB_UBUNTU_18_04="https://github.com/eosio/eos/releases/download/v2.0.12/eos
 DEB_QGRAPHER_18_04="https://github.com/quantum-sp8de/quantra-installer/raw/master/python3-qcrypgrapher_1.0-1.deb"
 DEB_QGRAPHER_20_04="https://github.com/quantum-sp8de/quantra-installer/raw/master/python3-qcrypgrapher_2.0-1.deb"
 DEB_QGRAPHER_22_04="https://github.com/quantum-sp8de/quantra-installer/raw/master/python3-qcrypgrapher_3.0-1.deb"
+DEB_CHIP_CONVERTER_UBUNTU="https://github.com/quantum-sp8de/quantra-installer/raw/master/qrng-chip-converter_1.0-1.deb"
 
 usage() { echo "Usage: $0 [-r <validator|generator|user>]" 1>&2; exit 1; }
 
@@ -51,20 +52,20 @@ while getopts ":r:" o; do
             elif [ "$r" == "generator" ]; then
                 TO_CHECK="quantra"
                 if [ "$VERSION_CODENAME" == "bionic" ]; then
-                    PKGS="$DEB_QUANTRA $DEB_QUANTRALIB $DEB_QGRAPHER_18_04 $DEB_COLANDER $DEB_BASE58"
+                    PKGS="$DEB_QUANTRA $DEB_QUANTRALIB $DEB_QGRAPHER_18_04 $DEB_CHIP_CONVERTER_UBUNTU $DEB_COLANDER $DEB_BASE58"
                 elif [ "$VERSION_CODENAME" == "focal" ]; then
-                    PKGS="$DEB_QUANTRA $DEB_QUANTRALIB $DEB_QGRAPHER_20_04 $DEB_COLANDER"
+                    PKGS="$DEB_QUANTRA $DEB_QUANTRALIB $DEB_QGRAPHER_20_04 $DEB_CHIP_CONVERTER_UBUNTU $DEB_COLANDER"
                 elif [ "$VERSION_CODENAME" == "jammy" ]; then
-                    PKGS="$DEB_QUANTRA $DEB_QUANTRALIB $DEB_QGRAPHER_22_04 $DEB_COLANDER"
+                    PKGS="$DEB_QUANTRA $DEB_QUANTRALIB $DEB_QGRAPHER_22_04 $DEB_CHIP_CONVERTER_UBUNTU $DEB_COLANDER"
                 fi
             elif [ "$r" == "user" ]; then
                 TO_CHECK="quantrapy"
                 if [ "$VERSION_CODENAME" == "bionic" ]; then
-                    PKGS="$DEB_QUANTRALIB $DEB_QGRAPHER_18_04 $DEB_COLANDER $DEB_BASE58"
+                    PKGS="$DEB_QUANTRALIB $DEB_QGRAPHER_18_04 $DEB_CHIP_CONVERTER_UBUNTU $DEB_COLANDER $DEB_BASE58"
                 elif [ "$VERSION_CODENAME" == "focal" ]; then
-                    PKGS="$DEB_QUANTRALIB $DEB_QGRAPHER_20_04 $DEB_COLANDER"
+                    PKGS="$DEB_QUANTRALIB $DEB_QGRAPHER_20_04 $DEB_CHIP_CONVERTER_UBUNTU $DEB_COLANDER"
                 elif [ "$VERSION_CODENAME" == "jammy" ]; then
-                    PKGS="$DEB_QUANTRALIB $DEB_QGRAPHER_22_04 $DEB_COLANDER"
+                    PKGS="$DEB_QUANTRALIB $DEB_QGRAPHER_22_04 $DEB_CHIP_CONVERTER_UBUNTU $DEB_COLANDER"
                 fi
             else
                 usage
