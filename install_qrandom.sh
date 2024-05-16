@@ -14,7 +14,7 @@ EOS_DEB_UBUNTU_18_04="https://github.com/eosio/eos/releases/download/v2.0.12/eos
 DEB_QGRAPHER_18_04="https://github.com/quantum-sp8de/quantra-installer/raw/master/python3-qcrypgrapher_1.0-1.deb"
 DEB_QGRAPHER_20_04="https://github.com/quantum-sp8de/quantra-installer/raw/master/python3-qcrypgrapher_2.0-1.deb"
 DEB_QGRAPHER_22_04="https://github.com/quantum-sp8de/quantra-installer/raw/master/python3-qcrypgrapher_3.0-1.deb"
-DEB_CHIP_CONVERTER_UBUNTU="https://github.com/quantum-sp8de/quantra-installer/raw/master/qrng-chip-converter_1.0-1.deb"
+DEB_CHIP_CONVERTER_UBUNTU="https://github.com/quantum-sp8de/quantra-installer/raw/master/qrng-chip-converter_1.1-1.deb"
 
 usage() { echo "Usage: $0 [-r <validator|generator|user>]" 1>&2; exit 1; }
 
