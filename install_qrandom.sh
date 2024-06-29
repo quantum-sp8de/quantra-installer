@@ -51,9 +51,7 @@ while getopts ":r:" o; do
                 fi
             elif [ "$r" == "generator" ]; then
                 TO_CHECK="quantra"
-                if [ "$VERSION_CODENAME" == "bionic" ]; then
-                    PKGS="$DEB_QUANTRA $DEB_QUANTRALIB $DEB_QGRAPHER_18_04 $DEB_CHIP_CONVERTER_UBUNTU $DEB_COLANDER $DEB_BASE58"
-                elif [ "$VERSION_CODENAME" == "focal" ]; then
+                if [ "$VERSION_CODENAME" == "focal" ]; then
                     PKGS="$DEB_QUANTRA $DEB_QUANTRALIB $DEB_QGRAPHER_20_04 $DEB_CHIP_CONVERTER_UBUNTU $DEB_COLANDER"
                 elif [ "$VERSION_CODENAME" == "jammy" ]; then
                     PKGS="$DEB_QUANTRA $DEB_QUANTRALIB $DEB_QGRAPHER_22_04 $DEB_CHIP_CONVERTER_UBUNTU $DEB_COLANDER"

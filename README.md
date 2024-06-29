@@ -14,7 +14,7 @@ where **ROLE** is one of the following values:
 ## Supported distro and roles to install 
 
 * Ubuntu 16.04: validator
-* Ubuntu 18.04: validator, generator, user
+* Ubuntu 18.04: validator, user
 * Ubuntu 20.04: generator, user
 * Ubuntu 22.04: generator, user (but see note below)
 
