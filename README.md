@@ -30,7 +30,15 @@ Prerequisites:
 After finishing, use **dquantra** to run your quantra application via Docker
 
 #### NOTES:
-In case of errors on Ubuntu 22.04 like the following:
+* If ypu have error during installation of docker quantra like the following
+
+`permission denied while trying to connect to the Docker daemon socket`
+
+do not gorget to add user to docker group and re-login with user:
+
+`sudo usermod -aG docker ${USER}`
+
+* In case of errors on Ubuntu 22.04 like the following:
 
  > ValueError: unsupported hash type rmd160
 
