@@ -2,8 +2,7 @@
 
 IMG_NAME="docker_quantra"
 RUN_MODE="text"
-QCICADA_LIB="/opt/qrng/cicada-pkcs11.so"
-# This is required, cause aold distros may not have UID, GID envs
+# This is required, cause old distros may not have UID, GID envs
 U_ID=$(id -u)
 G_ID=$(id -g)
 
@@ -54,12 +53,6 @@ $CONTAINER_RUNTIME inspect $IMG_NAME &> /dev/null || \
     { echo "$IMG_NAME container not available. Please, run install_quantra_docker.sh first"; exit 1; }
 
 
-if ! [[ -f $QCICADA_LIB ]]; then
-  echo "QCicada library is not found. Please, install QCicada hardware first"
-  exit 3
-fi
-
-
 if [[ "$RUN_MODE" == "gui" ]]; then
 
     echo "Running quantra GUI mode"
@@ -68,7 +61,6 @@ if [[ "$RUN_MODE" == "gui" ]]; then
                            -e XAUTHORITY \
                            -v /run/user/$U_ID/:/run/user/$U_ID:ro \
                            -v /home/$USER/.quantra:/root/.quantra:rw \
-                           -v /opt/qrng/:/opt/qrng/:rw \
                            -v /dev/bus/usb:/dev/bus/usb \
                            --rm \
                            --net=host \
@@ -79,7 +71,6 @@ else
     echo "Running quantra console mode"
     $CONTAINER_RUNTIME run \
                            -v /home/$USER/.quantra:/root/.quantra:rw \
-                           -v /opt/qrng/:/opt/qrng/:rw \
                            -v /dev/bus/usb:/dev/bus/usb \
                            --rm \
                            --net=host \
