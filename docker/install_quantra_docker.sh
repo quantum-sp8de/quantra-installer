@@ -14,7 +14,7 @@ then
 fi
 
 cat << EOF | docker build --no-cache -t $IMG_NAME -
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 RUN apt-get update -y && \
     apt-get install -y curl wget
