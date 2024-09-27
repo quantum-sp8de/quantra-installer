@@ -33,6 +33,7 @@ wget  https://raw.githubusercontent.com/quantum-sp8de/quantra-installer/master/d
 wget  https://raw.githubusercontent.com/quantum-sp8de/quantra-installer/master/docker/dquantra-registration -O ~/bin/dquantra-registration
 
 chmod +x ~/bin/dquantra
+chmod +x ~/bin/dquantra-registration
 
-echo -e "Installation OK\nRun 'dquantra' to start working"
+echo -e "Installation OK\nRun 'dquantra-registration' first if device is not registered yet. Run 'dquantra' to start working"
 exit 0
