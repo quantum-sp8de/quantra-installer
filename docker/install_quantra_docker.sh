@@ -28,8 +28,10 @@ EOF
 mkdir -p ~/.quantra
 mkdir -p ~/bin
 
-# download dquantra binary
+# download dquantra* binaries
 wget  https://raw.githubusercontent.com/quantum-sp8de/quantra-installer/master/docker/dquantra -O ~/bin/dquantra
+wget  https://raw.githubusercontent.com/quantum-sp8de/quantra-installer/master/docker/dquantra-registration -O ~/bin/dquantra-registration
+
 chmod +x ~/bin/dquantra
 
 echo -e "Installation OK\nRun 'dquantra' to start working"

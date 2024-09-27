@@ -1,0 +1,74 @@
+#!/bin/bash
+
+IMG_NAME="docker_quantra"
+DEVICE_PATH="/dev/ttyUSB0"
+
+
+usage() {
+  echo "Usage: $0 -s <SERVER_URL> -c <SERVER_CERTIFICATE> [-d DEVICE_PATH] " 1>&2
+}
+
+
+while getopts ":d:s:c:" options; do
+  case "${options}" in
+    d)
+      DEVICE_PATH=$OPTARG
+      ;;
+    s)
+      REGISTRATION_SERVER=$OPTARG
+      ;;
+    c)
+      REGISTRATION_SERVER_CERT=$OPTARG
+      ;;
+    *)
+      usage
+      exit 2
+      ;;
+  esac
+done
+
+if which podman 2>/dev/null >&2; then
+    CONTAINER_RUNTIME=podman
+elif which docker 2>/dev/null >&2; then
+    CONTAINER_RUNTIME=docker
+else
+    echo "'docker' or 'podman' command is not found. Please install docker or podman first"; exit 1;
+    exit 1
+fi
+
+$CONTAINER_RUNTIME inspect $IMG_NAME &> /dev/null || \
+    { echo "$IMG_NAME container not available. Please, run install_quantra_docker.sh first"; exit 1; }
+
+if [[ ! -f "$DEVICE_PATH" ]]; then
+    echo "Device not found on $DEVICE_PATH, aborting"
+    exit 1
+fi
+
+if [[ -z "$REGISTRATION_SERVER" ]]; then
+    usage
+    exit 1
+fi
+
+if [[ -z "$REGISTRATION_SERVER_CERT" ]]; then
+    usage
+    exit 1
+else
+    CERT_NAME=$(basename $REGISTRATION_SERVER_CERT)
+    CERT_MOUNT_POINT="/root/$CERT_NAME"
+    DOCKER_CERT_MOUNT_OPTION="-v $REGISTRATION_SERVER_CERT:$CERT_MOUNT_POINT"
+fi
+
+
+echo "Running quantra-registration console mode"
+$CONTAINER_RUNTIME run \
+                       $DOCKER_CERT_MOUNT_OPTION \
+                       -v /dev/bus/usb:/dev/bus/usb \
+                       --rm \
+                       --net=host \
+                       --privileged \
+                       --interactive \
+                       --tty \
+                       --entrypoint "/usr/bin/quantra-registration" \
+                       $IMG_NAME -d $DEVICE_PATH -s $REGISTRATION_SERVER -c $CERT_MOUNT_POINT
+
+exit 0

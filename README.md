@@ -27,7 +27,8 @@ Prerequisites:
 
 `curl -s https://raw.githubusercontent.com/quantum-sp8de/quantra-installer/master/docker/install_quantra_docker.sh | bash -s`
 
-After finishing, use **dquantra** to run your quantra application via Docker
+After finishing, run in terminal **dquantra-registration** to register your device.
+After registration, run your quantra application via Docker with **dquantra** command in terminal.
 
 #### NOTES:
 * If ypu have error during installation of docker quantra like the following
