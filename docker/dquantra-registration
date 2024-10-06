@@ -5,7 +5,7 @@ DEVICE_PATH="/dev/ttyUSB0"
 
 
 usage() {
-  echo "Usage: $0 -s <SERVER_URL> -c <SERVER_CERTIFICATE> [-d DEVICE_PATH] " 1>&2
+  echo "Usage: $0 -s <SERVER_URL> [-d DEVICE_PATH] " 1>&2
 }
 
 
@@ -16,9 +16,6 @@ while getopts ":d:s:c:" options; do
       ;;
     s)
       REGISTRATION_SERVER=$OPTARG
-      ;;
-    c)
-      REGISTRATION_SERVER_CERT=$OPTARG
       ;;
     *)
       usage
@@ -49,16 +46,6 @@ if [[ -z "$REGISTRATION_SERVER" ]]; then
     exit 1
 fi
 
-if [[ -z "$REGISTRATION_SERVER_CERT" ]]; then
-    usage
-    exit 1
-else
-    CERT_NAME=$(basename $REGISTRATION_SERVER_CERT)
-    CERT_MOUNT_POINT="/root/$CERT_NAME"
-    DOCKER_CERT_MOUNT_OPTION="-v $REGISTRATION_SERVER_CERT:$CERT_MOUNT_POINT"
-fi
-
-
 echo "Running quantra-registration console mode"
 $CONTAINER_RUNTIME run \
                        $DOCKER_CERT_MOUNT_OPTION \
@@ -69,6 +56,6 @@ $CONTAINER_RUNTIME run \
                        --interactive \
                        --tty \
                        --entrypoint "/usr/bin/quantra-registration" \
-                       $IMG_NAME -d $DEVICE_PATH -s $REGISTRATION_SERVER -c $CERT_MOUNT_POINT
+                       $IMG_NAME -d $DEVICE_PATH -s $REGISTRATION_SERVER
 
 exit 0
