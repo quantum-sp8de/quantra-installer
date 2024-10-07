@@ -5,7 +5,7 @@
 #
 
 DEB_QINSTALLER="https://github.com/quantum-sp8de/quantra-installer/raw/master/qinstaller_1.1-1.deb"
-DEB_QUANTRA="https://github.com/quantum-sp8de/quantra-installer/raw/master/python3-quantra_0.3.12-1_all.deb"
+DEB_QUANTRA="https://github.com/quantum-sp8de/quantra-installer/raw/master/python3-quantra_0.3.13-1_all.deb"
 DEB_QUANTRALIB="https://github.com/quantum-sp8de/quantra-installer/raw/master/python3-quantralib_2.3.3-1_all.deb"
 DEB_COLANDER="http://security.ubuntu.com/ubuntu/pool/universe/p/python-colander/python3-colander_1.0b1-3_all.deb"
 DEB_BASE58="http://security.ubuntu.com/ubuntu/pool/universe/p/python-base58/python3-base58_1.0.3-1_all.deb"
