@@ -36,7 +36,7 @@ fi
 $CONTAINER_RUNTIME inspect $IMG_NAME &> /dev/null || \
     { echo "$IMG_NAME container not available. Please, run install_quantra_docker.sh first"; exit 1; }
 
-if [[ ! -f "$DEVICE_PATH" ]]; then
+if [[ ! -c "$DEVICE_PATH" ]]; then
     echo "Device not found on $DEVICE_PATH, aborting"
     exit 1
 fi
