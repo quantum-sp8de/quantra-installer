@@ -31,11 +31,19 @@ After finishing, run in terminal **dquantra-registration** to register your devi
 After registration, run your quantra application via Docker with **dquantra** command in terminal.
 
 #### NOTES:
-* If ypu have error during installation of docker quantra like the following
+* If you have error accessing QCicada device like the following
+
+`could not open port /dev/ttyUSB0: [Errno 13] Permission denied`
+
+do not forget to add user to dialout group to access serial devices:
+
+`sudo usermod -a -G dialout $USER`
+
+* If you have error during installation of docker quantra like the following
 
 `permission denied while trying to connect to the Docker daemon socket`
 
-do not gorget to add user to docker group and re-login with user:
+do not forget to add user to docker group and re-login with user:
 
 `sudo usermod -aG docker ${USER}`
 
