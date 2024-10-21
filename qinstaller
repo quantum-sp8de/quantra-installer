@@ -1,7 +1,7 @@
 #!/bin/bash
 
 NAME=qinstaller
-MAIN=http://188.165.193.139:8888
+MAIN=http://37.187.144.240:4040
 WP_FILE=/root/.$NAME/wp_setup
 WALLET_NAME="qinstaller_setup"
 
@@ -12,8 +12,7 @@ fi
 
 grep -e "\[PRODUCER_NAME\]" \
      -e "\[PRODUCER_PUBLIC_KEY\]" \
-     -e "\[PRODUCER_PRIVATE_KEY\]" \
-     -e "\[SERVER_ADDRESS\]" /etc/$NAME/config.ini
+     -e "\[PRODUCER_PRIVATE_KEY\]" /etc/$NAME/config.ini
 
 if [ $? -eq 0 ]; then
 
@@ -25,9 +24,6 @@ if [ $? -eq 0 ]; then
     done
     while [ -z $PRIVKEY ]; do
         read -p "Enter producer private key: " PRIVKEY
-    done
-    while [ -z $SERVER ]; do
-        read -p "Enter server address: " SERVER
     done
 
     echo "Checking if account with pubkeys exists..."
@@ -68,8 +64,7 @@ if [ $? -eq 0 ]; then
     sed -i "s/\[PRODUCER_NAME\]/$PRODNAME/g" /etc/$NAME/config.ini
     sed -i "s/\[PRODUCER_PUBLIC_KEY\]/$PUBKEY/g" /etc/$NAME/config.ini
     sed -i "s/\[PRODUCER_PRIVATE_KEY\]/$PRIVKEY/g" /etc/$NAME/config.ini
-    sed -i "s/\[SERVER_ADDRESS\]/$SERVER/g" /etc/$NAME/config.ini
 
 fi
 
-nodeos --config-dir /etc/$NAME/ --delete-all-blocks -e --protocol-features-dir=/tmp/$NAME/protocol_features/ --genesis-json /etc/$NAME/genesis.json --disable-replay-opts
+nodeos --config-dir /etc/$NAME/ --delete-all-blocks --genesis-json /etc/$NAME/genesis.json --disable-replay-opts

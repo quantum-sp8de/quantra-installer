@@ -1,11 +1,11 @@
 #!/bin/bash
 
 NAME="qinstaller"
-VERSION="1.1"
+VERSION="1.2"
 REVISION="1"
-CFG_URL="https://raw.githubusercontent.com/AlexandrDedckov/config/master/config_template.ini"
-GEN_URL="https://raw.githubusercontent.com/AlexandrDedckov/config/master/genesis.json"
-SC_URL="https://raw.githubusercontent.com/adedkov/qinstaller/master/qinstaller"
+CFG_URL="https://raw.githubusercontent.com/quantum-sp8de/sp8de-configs/refs/heads/master/config.ini"
+GEN_URL="https://raw.githubusercontent.com/quantum-sp8de/sp8de-configs/refs/heads/master/genesis.json"
+SC_URL="https://raw.githubusercontent.com/quantum-sp8de/quantra-installer/refs/heads/master/qinstaller"
 
 PKG_DIR=$NAME\_$VERSION-$REVISION
 
@@ -33,10 +33,10 @@ Package: $NAME
 Version: $VERSION
 Section: devel
 Priority: optional
-Architecture: all
+Architecture: x64_86
 Depends: eosio
-Homepage: https://github.com/AlexandrDedckov/qinstaller
-Maintainer: Quantcron Technologies Inc. <noreply@quantcron.com>
+Homepage: https://github.com/quantum-sp8de/quantra-installer
+Maintainer: Qrng Solutions Ltd. support@qrng.com
 Description: The validator package provides EOS Block Chain setup for validator
 EOL
 
