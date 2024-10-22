@@ -2,7 +2,7 @@
 
 NAME="qinstaller"
 VERSION="1.2"
-REVISION="1"
+REVISION="2"
 CFG_URL="https://raw.githubusercontent.com/quantum-sp8de/sp8de-configs/refs/heads/master/config.ini"
 GEN_URL="https://raw.githubusercontent.com/quantum-sp8de/sp8de-configs/refs/heads/master/genesis.json"
 SC_URL="https://raw.githubusercontent.com/quantum-sp8de/quantra-installer/refs/heads/master/qinstaller"
@@ -33,7 +33,7 @@ Package: $NAME
 Version: $VERSION
 Section: devel
 Priority: optional
-Architecture: x64_86
+Architecture: all
 Depends: eosio
 Homepage: https://github.com/quantum-sp8de/quantra-installer
 Maintainer: Qrng Solutions Ltd. support@qrng.com
