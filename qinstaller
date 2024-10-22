@@ -1,7 +1,7 @@
 #!/bin/bash
 
 NAME=qinstaller
-MAIN=http://188.165.193.139:8888
+#MAIN=http://188.165.193.139:8888
 WP_FILE=/root/.$NAME/wp_setup
 WALLET_NAME="qinstaller_setup"
 
@@ -12,8 +12,7 @@ fi
 
 grep -e "\[PRODUCER_NAME\]" \
      -e "\[PRODUCER_PUBLIC_KEY\]" \
-     -e "\[PRODUCER_PRIVATE_KEY\]" \
-     -e "\[SERVER_ADDRESS\]" /etc/$NAME/config.ini
+     -e "\[PRODUCER_PRIVATE_KEY\]" /etc/$NAME/config.ini
 
 if [ $? -eq 0 ]; then
 
@@ -26,12 +25,19 @@ if [ $? -eq 0 ]; then
     while [ -z $PRIVKEY ]; do
         read -p "Enter producer private key: " PRIVKEY
     done
-    while [ -z $SERVER ]; do
-        read -p "Enter server address: " SERVER
+    while [ -z $MAIN ]; do
+        read -p "Enter url working sp8de network address: " MAIN
     done
 
+    echo "Checking if network..."
+    cleos -u $MAIN get info > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo "Invalid network address"
+        exit 1
+    fi
+
     echo "Checking if account with pubkeys exists..."
-    cleos -u $MAIN  get account $PRODNAME | grep $PUBKEY > /dev/null 2>&1
+    cleos -u $MAIN get account $PRODNAME | grep $PUBKEY > /dev/null 2>&1
     if [ $? -ne 0 ]; then
         echo "Account $PRODNAME with pubkey $PUBKEY does not exist, aborting..."
         exit 1
@@ -72,4 +78,4 @@ if [ $? -eq 0 ]; then
 
 fi
 
-nodeos --config-dir /etc/$NAME/ --delete-all-blocks -e --protocol-features-dir=/tmp/$NAME/protocol_features/ --genesis-json /etc/$NAME/genesis.json --disable-replay-opts
+nodeos --config-dir /etc/$NAME/ --delete-all-blocks --genesis-json /etc/$NAME/genesis.json --disable-replay-opts
