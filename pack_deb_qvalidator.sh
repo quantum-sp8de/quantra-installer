@@ -33,7 +33,7 @@ Package: $NAME
 Version: $VERSION
 Section: devel
 Priority: optional
-Architecture: x64_86
+Architecture: all
 Depends: eosio
 Homepage: https://github.com/quantum-sp8de/quantra-installer
 Maintainer: Qrng Solutions Ltd. support@qrng.com
