@@ -2,7 +2,7 @@
 
 NAME="qinstaller"
 VERSION="1.2"
-REVISION="1"
+REVISION="2"
 CFG_URL="https://raw.githubusercontent.com/quantum-sp8de/sp8de-configs/refs/heads/master/config.ini"
 GEN_URL="https://raw.githubusercontent.com/quantum-sp8de/sp8de-configs/refs/heads/master/genesis.json"
 SC_URL="https://raw.githubusercontent.com/quantum-sp8de/quantra-installer/refs/heads/master/qinstaller"
