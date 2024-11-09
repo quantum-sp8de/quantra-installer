@@ -35,7 +35,7 @@ After registration, run your quantra application via Docker with **dquantra** co
 
 `could not open port /dev/ttyUSB0: [Errno 13] Permission denied`
 
-do not forget to add user to dialout group to access serial devices:
+do not forget to add user to dialout group to access serial devices and then re-login/reboot:
 
 `sudo usermod -a -G dialout $USER`
 
