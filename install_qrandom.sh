@@ -14,7 +14,7 @@ DEB_BASE58="http://security.ubuntu.com/ubuntu/pool/universe/p/python-base58/pyth
 EOS_DEB_UBUNTU_18_04="https://github.com/EOSIO/eos/releases/download/v2.1.0/eosio_2.1.0-1-ubuntu-18.04_amd64.deb"
 EOS_DEB_UBUNTU_20_04="https://github.com/EOSIO/eos/releases/download/v2.1.0/eosio_2.1.0-1-ubuntu-20.04_amd64.deb"
 DEB_QGRAPHER_18_04="https://github.com/quantum-sp8de/quantra-installer/raw/master/python3-qcrypgrapher_1.0-1.deb"
-DEB_QGRAPHER_20_04="https://github.com/quantum-sp8de/quantra-installer/raw/master/python3-qcrypgrapher_2.0-1.deb"
+DEB_QGRAPHER_20_04="https://github.com/quantum-sp8de/quantra-installer/raw/master/python3-qcrypgrapher_2.1-1_amd64.deb"
 if [ "$ARCH" == "x86_64" ]; then
   DEB_QGRAPHER_22_04="https://github.com/quantum-sp8de/quantra-installer/raw/master/python3-qcrypgrapher_3.0-1.deb"
 elif [ "$ARCH" == "armv7l" ]; then
