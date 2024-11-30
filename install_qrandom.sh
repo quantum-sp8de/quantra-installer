@@ -20,6 +20,8 @@ if [ "$ARCH" == "x86_64" ]; then
 elif [ "$ARCH" == "armv7l" ]; then
   DEB_QGRAPHER_20_04="https://github.com/quantum-sp8de/quantra-installer/raw/master/python3-qcrypgrapher_2.1-1_armhf.deb"
   DEB_QGRAPHER_22_04="https://github.com/quantum-sp8de/quantra-installer/raw/master/python3-qcrypgrapher_3.1-1_armhf.deb"
+elif [ "$ARCH" == "aarch64" ]; then
+  DEB_QGRAPHER_20_04="https://github.com/quantum-sp8de/quantra-installer/raw/master/python3-qcrypgrapher_2.1-1_arm64.deb"
 else
   echo "Not supported arch: $ARCH"
   exit 1
@@ -69,7 +71,7 @@ while getopts ":r:" o; do
             elif [ "$r" == "generator" ]; then
                 TO_CHECK="quantra"
                 if [ "$VERSION_CODENAME" == "focal" ]; then
-                    [ "$ARCH" != "x86_64" ] && [ "$ARCH" != "armv7l" ] && { echo "Not supported arch: $ARCH"; exit 1;}
+                    [ "$ARCH" != "x86_64" ] && [ "$ARCH" != "armv7l" ] && [ "$ARCH" != "aarch64" ] && { echo "Not supported arch: $ARCH"; exit 1;}
                     PKGS="$DEB_QUANTRA $DEB_QUANTRALIB $DEB_QGRAPHER_20_04 $DEB_CHIP_CONVERTER_UBUNTU $DEB_COLANDER"
                 elif [ "$VERSION_CODENAME" == "jammy" ]; then
                     [ "$ARCH" != "x86_64" ] && [ "$ARCH" != "armv7l" ] && { echo "Not supported arch: $ARCH"; exit 1;}
@@ -81,7 +83,7 @@ while getopts ":r:" o; do
                     [ "$ARCH" != "x86_64" ] && { echo "Not supported arch: $ARCH"; exit 1;}
                     PKGS="$DEB_QUANTRALIB $DEB_QGRAPHER_18_04 $DEB_CHIP_CONVERTER_UBUNTU $DEB_COLANDER $DEB_BASE58"
                 elif [ "$VERSION_CODENAME" == "focal" ]; then
-                    [ "$ARCH" != "x86_64" ] && [ "$ARCH" != "armv7l" ] && { echo "Not supported arch: $ARCH"; exit 1;}
+                    [ "$ARCH" != "x86_64" ] && [ "$ARCH" != "armv7l" ] && [ "$ARCH" != "aarch64" ] && { echo "Not supported arch: $ARCH"; exit 1;}
                     PKGS="$DEB_QUANTRALIB $DEB_QGRAPHER_20_04 $DEB_CHIP_CONVERTER_UBUNTU $DEB_COLANDER"
                 elif [ "$VERSION_CODENAME" == "jammy" ]; then
                     [ "$ARCH" != "x86_64" ] && [ "$ARCH" != "armv7l" ] && { echo "Not supported arch: $ARCH"; exit 1;}
